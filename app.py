@@ -13,19 +13,19 @@ class Calculator:
     add_trigger = False
     sub_trigger = False
 
-    def button_press(self, value):
-        entry_val = self.number_entry.get()
-        entry_val += value
-        self.number_entry.delete(0, "end")
-        self.number_entry.insert(0, entry_val)
-
-
     def is_float(self, str_val):
         try:
             float(str_val)
             return True
         except ValueError:
             return False
+
+    def button_press(self, value):
+        entry_val = self.number_entry.get()
+        entry_val += value
+        self.number_entry.delete(0, "end")
+        self.number_entry.insert(0, entry_val)
+
 
     def math_button_press(self, value):
         if self.is_float(str(self.number_entry.get())):
@@ -40,7 +40,7 @@ class Calculator:
                 self.div_trigger = True
             elif value == "*":
                 print("* Pressed")
-                self.mtl_trigger = True
+                self.mtp_trigger = True
             elif value == "+":
                 print("+ Pressed")
                 self.add_trigger = True
@@ -56,13 +56,17 @@ class Calculator:
                 sln = self.calc_value + float(self.entry_value.get())
             elif self.sub_trigger:
                 sln = self.calc_value - float(self.entry_value.get())
-            elif self.mtl_trigger:
+            elif self.mtp_trigger:
                 sln = self.calc_value * float(self.entry_value.get())
             else:
                 sln = self.calc_value / float(self.entry_value.get())
 
             self.number_entry.delete(0, "end")
             self.number_entry.insert(0, sln)
+
+    def ac_button_press(self):
+        self.calc_value = 0.0
+        self.number_entry.delete(0, "end")
 
     def __init__(self, root):
         self.entry_value = StringVar(root, value="")
@@ -132,7 +136,7 @@ class Calculator:
 
         self.button7 = ttk.Button(root,
                             text="AC",
-                            command=lambda: self.button_press("AC")).grid(row=4, column=0)
+                            command=lambda: self.ac_button_press()).grid(row=4, column=0)
         self.button8 = ttk.Button(root,
                             text="0",
                             command=lambda: self.button_press("0")).grid(row=4, column=1)
